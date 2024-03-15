@@ -1,22 +1,25 @@
 window.onload = function () {
-  var canvas = document.getElementById('canvas');
-  var ctx = canvas.getContext('2d');
+  const CANVAS = document.getElementById('canvas');
+  const CTX = CANVAS.getContext('2d');
+
+  const SCORE = document.getElementById('score');
+  const HIGHT_SCORE = document.getElementById('hight-score');
+  const GAME_OVER = document.getElementById('game-over');
 
   document.addEventListener('keydown', keyPush);
   setInterval(game, 100);
 
-  const vel = 1;
+  const VEL = 1;
+  const BLOCK_SIZE = 32;
+  const QTDE = CANVAS.width / BLOCK_SIZE - 1; //Qtd de blocos na tela
 
-  var velX = vel;
+  var velX = VEL;
   var velY = 0;
-  var posX = 10;
-  var posY = 15;
+  var posX = 0;
+  var posY = 12;
 
-  var size = 20;
-  var qtd = 30;
-
-  var foodX = Math.floor(Math.random() * qtd);
-  var foodY = Math.floor(Math.random() * qtd);
+  var foodX = Math.floor(Math.random() * QTDE);
+  var foodY = Math.floor(Math.random() * QTDE);
 
   var trail = [];
   var tail = 3;
@@ -27,34 +30,34 @@ window.onload = function () {
     posY += velY;
 
     if (posX < 0) {
-      posX = qtd - 1;
+      posX = QTDE;
     }
-    if (posX > qtd - 1) {
+    if (posX > QTDE) {
       posX = 0;
     }
     if (posY < 0) {
-      posY = qtd - 1;
+      posY = QTDE;
     }
-    if (posY > qtd - 1) {
+    if (posY > QTDE) {
       posY = 0;
     }
 
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    CTX.fillStyle = 'black';
+    CTX.fillRect(0, 0, CANVAS.width, CANVAS.height);
 
-    ctx.fillStyle = 'red';
-    ctx.fillRect(foodX * size, foodY * size, size, size);
+    CTX.fillStyle = 'red';
+    CTX.fillRect(foodX * BLOCK_SIZE, foodY * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
 
-    ctx.fillStyle = 'gray';
+    CTX.fillStyle = 'gray';
     for (let i = 0; i < trail.length; i++) {
-      ctx.fillRect(trail[i].x * size, trail[i].y * size, size - 1, size - 1);
+      CTX.fillRect(trail[i].x * BLOCK_SIZE, trail[i].y * BLOCK_SIZE, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
 
       if (trail[i].x == posX && trail[i].y == posY) {
         velX = velY = 0;
         gameOver = true;
         tail = 3;
-        document.getElementById('score').innerHTML = `Score: ${0}`;
-        document.getElementById('game-over').innerHTML = `Game Over`;
+        SCORE.innerHTML = 0;
+        GAME_OVER.innerHTML = `Game Over`;
       }
     }
 
@@ -67,24 +70,24 @@ window.onload = function () {
     if (foodX == posX && foodY == posY) {
       tail++;
 
-      document.getElementById('score').innerHTML = `Score: ${tail}`;
-
       if (tail > hightScore) hightScore = tail;
-      document.getElementById('hight-score').innerHTML = `Best: ${hightScore}`;
 
-      foodX = Math.floor(Math.random() * qtd);
-      foodY = Math.floor(Math.random() * qtd);
+      SCORE.innerHTML = tail;
+      HIGHT_SCORE.innerHTML = hightScore;
+
+      foodX = Math.floor(Math.random() * QTDE);
+      foodY = Math.floor(Math.random() * QTDE);
     }
   }
 
   function keyPush(event) {
-    document.getElementById('game-over').innerHTML = ``;
+    GAME_OVER.innerHTML = ``;
 
     switch (event.keyCode) {
       case 37: // Left
       case 65: // Left
         if (velX < 1) {
-          velX = -vel;
+          velX = -VEL;
           velY = 0;
         }
         break;
@@ -92,13 +95,13 @@ window.onload = function () {
       case 87: // up
         if (velY < 1) {
           velX = 0;
-          velY = -vel;
+          velY = -VEL;
         }
         break;
       case 39: // right
       case 68: // right
         if (velX > -1) {
-          velX = vel;
+          velX = VEL;
           velY = 0;
         }
         break;
@@ -106,7 +109,7 @@ window.onload = function () {
       case 83: // down
         if (velY > -1) {
           velX = 0;
-          velY = vel;
+          velY = VEL;
         }
         break;
       default:

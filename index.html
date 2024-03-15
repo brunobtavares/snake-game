@@ -10,16 +10,21 @@
 
   <body>
     <div class="center">
-      <div>
-        <div class="header">
-          <p id="score">Score: 0</p>
-          <p id="game-over"></p>
-          <p id="hight-score">Best: 0</p>
+      <div style="display: flex; justify-content: space-between">
+        <div>
+          <div>Score</div>
+          <div id="score">0</div>
         </div>
-        <canvas id="canvas" width="600" height="600"></canvas>
+        <div>
+          <div id="game-over"></div>
+        </div>
+        <div>
+          <div>Hight Score</div>
+          <div id="hight-score">0</div>
+        </div>
       </div>
+      <canvas id="canvas" width="800" height="800"></canvas>
     </div>
-
     <script src="snake.js"></script>
   </body>
 </html>
