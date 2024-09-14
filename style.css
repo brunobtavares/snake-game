@@ -3,6 +3,12 @@
   margin: 0px;
 }
 
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
 .center {
   width: 100vw;
   height: 100vh;
